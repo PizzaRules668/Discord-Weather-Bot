@@ -17,7 +17,7 @@ async def on_ready():
     print(f"Logged in as {bot.user.name}")
 
 @bot.slash_command(name="weather", description="Get weather from either a nws station or a zipcode")
-async def weather(ctx, station: str = "", zipcode: int = None):
+async def weather(ctx, station: str = None, zipcode: int = None):
     try:
         if station is None and zipcode is not None: # If using the zipcode
             weather = current_weather(zipcode=zipcode)[0]
