@@ -34,7 +34,7 @@ async def weather(ctx, station: str = None, zipcode: int = None):
         # Create an embed
         embed = disnake.Embed(
             title="Current Weather",
-            description=f"Weather at {station}",
+            description=f"Weather at { station if station is not None else zipcode }",
             color=0x00ff00,
             timestamp=weather.timestamp
         )
