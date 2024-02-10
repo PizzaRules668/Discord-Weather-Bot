@@ -21,12 +21,15 @@ async def weather(ctx, station: str = "", zipcode: int = None):
     try:
         if station is None and zipcode is not None: # If using the zipcode
             weather = current_weather(zipcode=zipcode)[0]
-        else: # If using the station 
+        elif station is not None and zipcode is None: # If using the station 
             # if station does not start with K, add K to the beginning    
             if not station.startswith("K"): station = f"K{station}"
             
             station = station.upper()
             weather = current_weather(station=station)[0]
+        else:
+            await ctx.send("You must provide either a station or a zipcode")
+            return
 
         # Create an embed
         embed = disnake.Embed(
