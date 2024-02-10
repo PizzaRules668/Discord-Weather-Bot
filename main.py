@@ -16,15 +16,17 @@ bot = commands.Bot(intents=intents)
 async def on_ready():
     print(f"Logged in as {bot.user.name}")
 
-@bot.slash_command(name="weather", description="Get weather from KPVB")
-async def weather(ctx, station: str = "KPVB"):
-    # if station does not start with K, add K to the beginning
-    if not station.startswith("K"): station = f"K{station}"
-    
-    station = station.upper()
-    
+@bot.slash_command(name="weather", description="Get weather from either a nws station or a zipcode")
+async def weather(ctx, station: str = "", zipcode: int = None):
     try:
-        weather = current_weather(station=station)[0]
+        if station is None and zipcode is not None: # If using the zipcode
+            weather = current_weather(zipcode=zipcode)[0]
+        else: # If using the station 
+            # if station does not start with K, add K to the beginning    
+            if not station.startswith("K"): station = f"K{station}"
+            
+            station = station.upper()
+            weather = current_weather(station=station)[0]
 
         # Create an embed
         embed = disnake.Embed(
